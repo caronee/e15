@@ -1,0 +1,268 @@
+version=2021-01-21-19-56-32
+
+#
+#
+# Main
+#
+main() {
+
+    # Make sure script isn’t running on production
+    if [ -d "/var/www/html" ]; then
+        echo "Utils not intended to be run on production. Exiting."
+        exit;
+    fi
+
+    # Detect operating system based on location of XAMPP path
+    if [ -d "/Applications/XAMPP" ]; then
+        operating_system='mac'
+    elif [ -d "c:\xampp" ]; then
+        operating_system='windows'
+    elif [ -d "/opt/lampp/" ]; then
+        operating_system='linux'
+    else 
+        echo "Error: Unable to detect operating system"
+        exit;
+    fi
+
+    # Detect repository name based on current directory name
+    # Assumes running `utils` from within the repository as instructed
+    repository=$(basename `git rev-parse --show-toplevel`)
+
+    # Welcome message
+    echo ""
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    echo "Welcome to hesweb utils"
+    echo "Version: $version"
+    echo "Repository: $repository"
+    echo "Operating system: $operating_system"
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+    # Do a version check and prompt for update if necessary
+    echo "Checking for updates..."
+    version
+
+    # Create .config file if it does not exist
+    if [ ! -f ".config" ]; then
+        echo -e "# Specify your production server SSH address \n# e.g. "root@your.ip.address" \nPRODUCTION_SSH=\"\"" >> .config
+    fi
+
+    # Set defaults based on the operating system
+    if [[ $operating_system == 'mac' ]]; then
+
+        # XAMPP Restart Apache
+        LOCAL_CMD_RESTART_APACHE="sudo /Applications/XAMPP/xamppfiles/xampp restart"
+    
+        # XAMPP Apache error log
+        LOCAL_FILE_APACHE_ERROR_LOG="/Applications/XAMPP/xamppfiles/logs/error_log"
+        LOCAL_CMD_VIEW_APACHE_ERROR_LOG="open -a TextEdit $LOCAL_FILE_APACHE_ERROR_LOG"
+
+        # XAMPP Apache config
+        LOCAL_FILE_APACHE_CONFIG="/Applications/XAMPP/xamppfiles/etc/httpd.conf"
+        LOCAL_CMD_EDIT_APACHE_CONFIG="open -a TextEdit $LOCAL_FILE_APACHE_CONFIG"
+
+        # XAMPP Apache VirtualHosts
+        LOCAL_FILE_VHOSTS="/Applications/XAMPP/etc/extra/httpd-vhosts.conf"
+        LOCAL_CMD_EDIT_VHOSTS="open -a TextEdit $LOCAL_FILE_VHOSTS"
+        LOCAL_CMD_READ_VHOSTS="/Applications/XAMPP/bin/httpd -S"
+
+        # Hosts
+        LOCAL_FILE_HOSTS="/private/etc/hosts"
+        LOCAL_CMD_EDIT_HOSTS="sudo nano $LOCAL_FILE_HOSTS"
+
+    elif [[ $operating_system == 'windows' ]]; then
+
+        # XAMPP Restart Apache
+        LOCAL_CMD_RESTART_APACHE="restart_xampp_windows"
+        
+        # XAMPP Apache error log
+        LOCAL_FILE_APACHE_ERROR_LOG="c:\xampp\apache\logs\error.log"
+        LOCAL_CMD_VIEW_APACHE_ERROR_LOG="notepad $LOCAL_FILE_APACHE_ERROR_LOG"
+
+        # XAMPP Apache config
+        LOCAL_FILE_APACHE_CONFIG="c:\xampp\apache\conf\httpd.conf"
+        LOCAL_CMD_EDIT_APACHE_CONFIG="notepad $LOCAL_FILE_APACHE_CONFIG"
+        
+        # XAMPP Apache VirtualHosts
+        LOCAL_FILE_VHOSTS="c:\xampp\apache\conf\extra\httpd-vhosts.conf"
+        LOCAL_CMD_EDIT_VHOSTS="notepad $LOCAL_FILE_VHOSTS"
+        LOCAL_CMD_READ_VHOSTS="c:\xampp\apache\bin\httpd.exe -S"
+
+        # Hosts
+        LOCAL_FILE_HOSTS="c:\Windows\System32\drivers\etc\hosts"
+        LOCAL_CMD_EDIT_HOSTS="elevate notepad $LOCAL_FILE_HOSTS"
+
+    elif [[ $operating_system == 'linux' ]]; then
+        # XAMPP Apache restart
+        LOCAL_CMD_RESTART_APACHE="sudo /opt/lampp/lampp reloadapache"
+
+        # XAMPP Apache error log
+        LOCAL_FILE_APACHE_ERROR_LOG="/opt/lampp/logs/error_log"
+        LOCAL_CMD_VIEW_APACHE_ERROR_LOG="gedit ${LOCAL_FILE_APACHE_ERROR_LOG}"
+
+        # XAMPP Apache config
+        LOCAL_FILE_APACHE_CONFIG="/opt/lampp/etc/httpd.conf"
+        LOCAL_CMD_EDIT_APACHE_CONFIG="gedit admin://${LOCAL_FILE_APACHE_CONFIG} >/dev/null &"
+
+        # XAMPP Apache VirtualHosts
+        LOCAL_FILE_VHOSTS="/opt/lampp/etc/extra/httpd-vhosts.conf"
+        LOCAL_CMD_EDIT_VHOSTS="gedit admin://${LOCAL_FILE_VHOSTS} >/dev/null &"
+        LOCAL_CMD_READ_VHOSTS="/opt/lampp/bin/httpd -S"
+
+        # Hosts
+        LOCAL_FILE_HOSTS="/etc/hosts"
+        LOCAL_CMD_EDIT_HOSTS="gedit admin://${LOCAL_FILE_HOSTS} >/dev/null &"
+    fi
+    
+    # Set production defaults
+    PROD_FILE_VHOSTS="/etc/apache2/sites-enabled/000-default.conf"
+    PROD_DIR_DOCUMENT_ROOT="/var/www/html"
+    
+    # Load configs
+    source .config
+
+    # Output command options
+    echo ""
+    echo "COMMANDS:"
+    echo ""
+    echo "MISC"
+    echo "  a) Update utils"
+    echo ""
+    echo "LOCAL"
+    echo "  b) Sync local code with Github"
+    echo "  c) View Apache error log ($LOCAL_FILE_APACHE_ERROR_LOG)"
+    echo "  d) Edit Apache config file ($LOCAL_FILE_APACHE_CONFIG)"
+    echo "  e) Edit VirtualHosts config file ($LOCAL_FILE_VHOSTS)"
+    echo "  f) Debug/check VirtualHosts settings"
+    echo "  g) Edit hosts config file ($LOCAL_FILE_HOSTS)"
+    echo "  h) Restart XAMPP’s Apache"
+    echo ""
+    echo "PRODUCTION"
+    if [ -n "$PRODUCTION_SSH" ]; then
+        echo "  i) Sync local code with Github and production"
+        echo "  j) SSH in your production server ($PRODUCTION_SSH) and navigate to $PROD_DIR_DOCUMENT_ROOT/$repository"
+        echo "  k) Edit VirtualHosts config file ($PROD_FILE_VHOSTS)"
+        echo "  l) Restart Apache"
+    else
+        echo "  Production commands are not available until you update PRODUCTION_SSH in .config"
+    fi
+
+    dump "ENTER A LETTER TO CHOOSE YOUR COMMAND (or enter q to quit): "
+
+    read n
+    case $n in
+    a) update;;
+    b) github_sync;;
+    c) $LOCAL_CMD_VIEW_APACHE_ERROR_LOG;;
+    d) $LOCAL_CMD_EDIT_APACHE_CONFIG;;
+    e) $LOCAL_CMD_EDIT_VHOSTS;;
+    f) $LOCAL_CMD_READ_VHOSTS;;
+    g) $LOCAL_CMD_EDIT_HOSTS;;
+    h) $LOCAL_CMD_RESTART_APACHE;;
+    i) production_deploy;;
+    j) production_ssh;;
+    k) production_edit_virtual_hosts;;
+    l) production_restart_apache;;
+    
+    q) exit;;
+    *) echo "Invalid option";;
+    esac
+}
+
+#
+# COMMANDS
+#
+github_sync() {
+    if git diff-index --quiet HEAD --; then
+        dump "No local code changes to sync."
+    else
+        git add --all
+        echo -n "Enter a commit message and press [ENTER]: "
+        read message
+
+        if [ -z "$message" ]; then
+            message="Sync local code with Github and production"
+            echo $message;
+        fi
+
+        git commit -m "$message"
+
+        dump "Pushing to Github..."
+        git push
+    fi
+}
+
+production_deploy() {
+    github_sync
+    ssh -t $PRODUCTION_SSH "cd $PRODUCTION_DOC_ROOT/$repository; git pull"
+}
+
+production_edit_virtual_hosts() {
+    ssh -t $PRODUCTION_SSH "nano $PROD_FILE_VHOSTS" 
+}
+
+production_ssh() {
+    ssh -t $PRODUCTION_SSH "cd $PROD_DIR_DOCUMENT_ROOT/$repository; bash --login"
+}
+
+production_restart_apache() {
+    ssh -t $PRODUCTION_SSH "service apache2 restart"
+}
+
+version() {
+
+    utils_source="https://misc001.s3.amazonaws.com/utils"
+
+     # If curl is available, use that to download script
+    if [[ -x "$(command -v curl)" ]]; then
+        utils_from_source=$(curl -s $utils_source)
+    # If wget is available, use that to download script
+    elif [[ -x "$(command -v wget)" ]]; then
+        utils_from_source=$(wget -qO- $utils_source)
+    else 
+        utils_from_source=''
+    fi
+
+    # Read the first line of the script file to get the latest version #
+    utils_from_source_array=(${utils_from_source[@]})
+    latest_version="${utils_from_source_array[0]}"
+
+    # Remove "version=" from the line, leaving just the version #
+    latest_version=${latest_version/version=/} 
+
+    if [[ "$version" != $latest_version ]]; then
+        echo ""
+        echo "================= WARNING ================="
+        echo "This script is currently at version $version"
+        echo "A newer version ($latest_version) is available."
+        echo "Choose option a to update"
+        echo "==========================================="
+    fi
+}
+
+update() {
+    if [[ ! -z "$utils_from_source" ]]; then
+        echo "$utils_from_source" > utils
+        echo "Update complete ✓ "
+        exit;
+    else 
+        echo "Update failed."
+    fi
+}
+
+restart_xampp_windows() {
+    echo "Stopping... (this may take a moment)"
+    "c:/xampp/xampp_stop" /f >nul 2>&1
+
+    echo "Restarting... (this may take a moment)"
+    "c:/xampp/xampp_start" /f >nul 2>&1
+}
+
+dump () {
+    echo ""
+    echo "===> $1"
+}
+
+#
+# Run
+#
+main
