@@ -5,12 +5,11 @@
 
 ## Outside resources
 
--https://www.php.net/manual/en/function.strrev.php
--https://www.php.net/manual/en/function.is-int.php
--https://www.php.net/manual/en/language.operators.assignment.php
--https://www.php.net/manual/en/function.ord.php
-
--http://sticksandstones.kstrom.com/appen.html
+- https://www.php.net/manual/en/function.strrev.php
+- https://www.php.net/manual/en/function.is-int.php
+- https://www.php.net/manual/en/language.operators.assignment.php
+- https://www.php.net/manual/en/function.ord.php 
+- http://sticksandstones.kstrom.com/appen.html
 
 ## Notes for instructor
 
