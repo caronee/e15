@@ -1,17 +1,17 @@
-<!doctype html> 
-<html lang='en'> 
-    <head>     
-    <title>Practice Application</title>
-        <meta charset='utf-8'>     
+<?php
 
-        <link href=data:, rel=icon> 
-    </head> 
-    <body>
-        <h1>Practice Application</h1>
-        <h2>By: Caroline Im</h2>
-        <p>edits</p>
+session_start();
 
-        <?php echo 9+10; ?>
+$inputString = null;
+#var_dump($_SESSION);
 
-    </body> 
- </html>
+
+
+if (isset($_SESSION['result'])) {
+    extract($_SESSION['result']);
+
+
+    $_SESSION['result'] = null;
+}
+
+require 'index-view.php';
