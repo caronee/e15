@@ -13,10 +13,19 @@
 
     <section>
         <h1>{{ $title }}</h1>
-
+        @if($bookFound)
         <p>
-            Details about this book will go here...
+            Details about this book will go here... <?php echo $title; ?>
+            Another title <?= $title;?>
         </p>
+        @else
+        <p>
+            Book not found
+        </p>
+        @endif
+
+
+
     </section>
 
     <footer>

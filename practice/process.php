@@ -7,7 +7,7 @@ $inputString = ($_GET['inputString']);
 
 $answer = strtolower($inputString);
 
-
+$xyz = StringProcessor::xyz();
 $stringProcessor = new StringProcessor($answer, $inputString);
 
 /*

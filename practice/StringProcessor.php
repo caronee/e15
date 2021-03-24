@@ -83,4 +83,9 @@ class StringProcessor
         #return $newLetter;
         return $letterShift;
     }
+
+    public static function xyz()
+    {
+        return 'xyz';
+    }
 }

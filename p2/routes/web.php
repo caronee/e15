@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/minerals', function () {
+    return "All dem bookies";
+});
+
+
+Route::get('/minerals/{title}', function ($title) {
+    return $title;
+});
+
+Route::get('/search/{category}/{subcategory}', function ($category, $subcategory) {
+    return $category . ' and '. $subcategory;
+});
