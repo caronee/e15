@@ -3,11 +3,13 @@
 session_start();
 
 $inputString = null;
-#var_dump($_SESSION);
+
 
 
 
 if (isset($_SESSION['result'])) {
+    //var_dump($_SESSION);
+
     extract($_SESSION['result']);
 
 

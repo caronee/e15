@@ -16,10 +16,13 @@ $addVowels = addVowels($answer);
 $letterShift =letterShift($inputString);*/
 
 
+
 $_SESSION['result']  = [
     'isPalindrome' => $stringProcessor->isPalindrome(),
     'addVowels' => $stringProcessor->addVowels(),
-    'letterShift' => $stringProcessor->letterShift()
+    'letterShift' => $stringProcessor->letterShift(),
+    'inputString' => $inputString,
+    'answer' => $answer
 
 ];
 

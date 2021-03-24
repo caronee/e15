@@ -19,9 +19,9 @@ class StringProcessor
     //checks for palindrome
     public function isPalindrome()
     {
-        var_dump($this->$answer);
+        var_dump($this->answer);
 
-        $stringLength = str_split($this->$answer);
+        $stringLength = str_split($this->answer);
         
         //converts variable to integer value
         $stringabc = '';
@@ -36,6 +36,7 @@ class StringProcessor
                 $result = ($stringabc ==  $reverse) ? 'Yes' : 'No';
             }
         }
+        //echo($result);
         return $result;
     }
 
@@ -50,10 +51,10 @@ class StringProcessor
     //adds the number of vowels
     public function addVowels()
     {
-        $stringLength = str_split($this->$answer);
+        $stringLength = str_split($this->answer);
 
         foreach ($stringLength as $letter) {
-            $vowelCount += countVowels($letter);
+            $vowelCount += $this->countVowels($letter);
         }
         return $vowelCount;
     }
@@ -63,7 +64,7 @@ class StringProcessor
     //shifts all letters
     public function letterShift()
     {
-        $stringLength = str_split($this->$inputString);
+        $stringLength = str_split($this->inputString);
 
         foreach ($stringLength as $letter) {
             if ((ord($letter) >=65) && (ord($letter) <= 122)) {
