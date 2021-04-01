@@ -1,36 +1,47 @@
-<!doctype html>
-<html lang='en'>
-<head>
-    <title>{{ $title }}</title>
-    <meta charset='utf-8'>
-    <link href='/css/bookmark.css' type='text/css' rel='stylesheet'>
-</head>
-<body>
+@extends('layouts/main')
 
-    <header>
-        <a href='/'><img src='/images/bookmark-logo@2x.png' id='logo' alt='Bookmark Logo'></a>
-    </header>
+@section('title')
+{{ $book ? $book['title'] : 'Book not found' }}
+@endsection
 
-    <section>
-        <h1>{{ $title }}</h1>
-        @if($bookFound)
+@section('head')
+<link href='/css/books/show.css' rel='stylesheet'>
+@endsection
+
+@section('content')
+
+@if(!$book)
+Book not found. <a href='/books'>Check out the other books in our library...</a>
+@else
+<img class='cover' src='{{ $book['cover_url'] }}' alt='Cover photo for {{ $book['title'] }}'>
+
+<h1>{{ $book['title'] }}</h1>
+
+<p>By {{ $book['author'] }} ({{ $book['published_year']}})</p>
+
+<a href='{{ $book['purchase_url'] }}'>Purchase...</a>
+
+<p class='description'>
+    {{ $book['description'] }}
+    <a href='{{ $book['info_url'] }}'>Learn more...</a>
+</p>
+
+@endif
+
+@endsection
+
+
+
+
+<!--<h1> $ </h1>
+        if$
         <p>
-            Details about this book will go here... <?php echo $title; ?>
-            Another title <?= $title;?>
+            Details about this book will go here... <//?php echo $title; ?>
+            Another title <//?= $title;?>
         </p>
-        @else
+        else
         <p>
             Book not found
         </p>
-        @endif
-
-
-
-    </section>
-
-    <footer>
-        &copy; Bookmark, Inc.
-    </footer>
-
-</body>
-</html>
+        endif
+-->

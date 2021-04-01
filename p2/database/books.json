@@ -1,0 +1,92 @@
+{
+    "the-great-gatsby": {
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "published_year": 1925,
+        "cover_url": "https://hes-bookmark.s3.amazonaws.com/the-great-gatsby.jpg",
+        "info_url": "https://en.wikipedia.org/wiki/The_Great_Gatsby",
+        "purchase_url": "http://www.barnesandnoble.com/w/the-great-gatsby-francis-scott-fitzgerald/1116668135?ean=9780743273565",
+        "tags": [
+            "novel",
+            "fiction",
+            "classic",
+            "wealth"
+        ],
+        "description": "The Great Gatsby is a 1925 novel written by American author F. Scott Fitzgerald that follows a cast of characters living in the fictional towns of West Egg and East Egg on prosperous Long Island in the summer of 1922. The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion and obsession with the beautiful former debutante Daisy Buchanan. Considered to be Fitzgerald’s magnum opus, The Great Gatsby explores themes of decadence, idealism, resistance to change, social upheaval and excess, creating a portrait of the Roaring Twenties that has been described as a cautionary tale regarding the American Dream."
+    },
+    "the-bell-jar": {
+        "title": "The Bell Jar",
+        "author": "Sylvia Plath",
+        "published_year": 1963,
+        "cover_url": "https://hes-bookmark.s3.amazonaws.com/the-bell-jar.jpg",
+        "info_url": "https://en.wikipedia.org/wiki/The_Bell_Jar",
+        "purchase_url": "http://www.barnesandnoble.com/w/bell-jar-sylvia-plath/1100550703?ean=9780061148514",
+        "tags": [
+            "novel",
+            "fiction",
+            "classic",
+            "women"
+        ],
+        "description": "The Bell Jar is the only novel written by the American writer and poet Sylvia Plath. Originally published under the pseudonym “Victoria Lucas” in 1963, the novel is semi-autobiographical, with the names of places and people changed. The book is often regarded as a roman à clef because the protagonist’s descent into mental illness parallels Plath’s own experiences with what may have been clinical depression or bipolar II disorder. Plath died by suicide a month after its first UK publication. The novel was published under Plath’s name for the first time in 1967 and was not published in the United States until 1971, in accordance with the wishes of both Plath’s husband, Ted Hughes, and her mother. The novel has been translated into nearly a dozen languages."
+    },
+    "i-know-why-the-caged-bird-sings": {
+        "title": "I Know Why the Caged Bird Sings",
+        "author": "Maya Angelou",
+        "published_year": 1969,
+        "cover_url": "https://hes-bookmark.s3.amazonaws.com/i-know-why-the-caged-bird-sings.jpg",
+        "info_url": "https://en.wikipedia.org/wiki/I_Know_Why_the_Caged_Bird_Sings",
+        "purchase_url": "http://www.barnesandnoble.com/w/i-know-why-the-caged-bird-sings-maya-angelou/1100392955?ean=9780345514400",
+        "tags": [
+            "autobiography",
+            "nonfiction",
+            "classic",
+            "women"
+        ],
+        "description": "I Know Why the Caged Bird Sings is a 1969 autobiography describing the early years of American writer and poet Maya Angelou. The first in a seven-volume series, it is a coming-of-age story that illustrates how strength of character and a love of literature can help overcome racism and trauma. The book begins when three-year-old Maya and her older brother are sent to Stamps, Arkansas, to live with their grandmother and ends when Maya becomes a mother at the age of 16. In the course of Caged Bird, Maya transforms from a victim of racism with an inferiority complex into a self-possessed, dignified young woman capable of responding to prejudice."
+    },
+    "harry-potter-and-the-philosophers-stone": {
+        "title": "Harry Potter and the Philosopher’s Stone",
+        "author": "J.K. Rowling",
+        "published_year": 1997,
+        "cover_url": "https://hes-bookmark.s3.amazonaws.com/harry-potter-and-the-philosophers-stone.jpg",
+        "info_url": "https://en.wikipedia.org/wiki/Harry_Potter_and_the_Philosopher%27s_Stone",
+        "purchase_url": "https://www.barnesandnoble.com/w/harry-potter-and-the-sorcerers-stone-j-k-rowling/1100036321?ean=9780590353427",
+        "tags": [
+            "fiction",
+            "young adult",
+            "magic",
+            "series"
+        ],
+        "description": "Harry Potter and the Philosopher’s Stone is a fantasy novel written by British author J. K. Rowling. The first novel in the Harry Potter series and Rowling’s debut novel, it follows Harry Potter, a young wizard who discovers his magical heritage on his eleventh birthday, when he receives a letter of acceptance to Hogwarts School of Witchcraft and Wizardry. Harry makes close friends and a few enemies during his first year at the school, and with the help of his friends, Harry faces an attempted comeback by the dark wizard Lord Voldemort, who killed Harry’s parents, but failed to kill Harry when he was just 15 months old."
+    },
+    "harry-potter-and-the-chamber-of-secrets": {
+        "title": "Harry Potter and the Chamber of Secrets",
+        "author": "J.K. Rowling",
+        "published_year": 1998,
+        "cover_url": "https://hes-bookmark.s3.amazonaws.com/harry-potter-and-the-chamber-of-secrets.jpg",
+        "info_url": "https://en.wikipedia.org/wiki/Harry_Potter_and_the_Chamber_of_Secrets",
+        "purchase_url": "https://www.barnesandnoble.com/w/harry-potter-and-the-chamber-of-secrets-j-k-rowling/1004338523?ean=9780439064873",
+        "tags": [
+            "fiction",
+            "young adult",
+            "magic",
+            "series"
+        ],
+        "description": "Harry Potter and the Chamber of Secrets is a fantasy novel written by British author J. K. Rowling and the second novel in the Harry Potter series. The plot follows Harry’s second year at Hogwarts School of Witchcraft and Wizardry, during which a series of messages on the walls of the school’s corridors warn that the “Chamber of Secrets” has been opened and that the “heir of Slytherin” would kill all pupils who do not come from all-magical families. These threats are found after attacks that leave residents of the school petrified. Throughout the year, Harry and his friends Ron and Hermione investigate the attacks."
+    },
+    "harry-potter-and-the-prisoner-of-azkaban": {
+        "title": "Harry Potter and the Prisoner of Azkaban",
+        "author": "J.K. Rowling",
+        "published_year": 1999,
+        "cover_url": "https://hes-bookmark.s3.amazonaws.com/harry-potter-and-the-prisoner-of-azkaban.jpg",
+        "info_url": "https://en.wikipedia.org/wiki/Harry_Potter_and_the_Prisoner_of_Azkaban",
+        "purchase_url": "https://www.barnesandnoble.com/w/harry-potter-and-the-prisoner-of-azkaban-j-k-rowling/1100178339?ean=9780439136365",
+        "tags": [
+            "fiction",
+            "young adult",
+            "magic",
+            "series"
+        ],
+        "description": "Harry Potter and the Prisoner of Azkaban is a fantasy novel written by British author J.K. Rowling and is the third in the Harry Potter series. The book follows Harry Potter, a young wizard, in his third year at Hogwarts School of Witchcraft and Wizardry. Along with friends Ronald Weasley and Hermione Granger, Harry investigates Sirius Black, an escaped prisoner from Azkaban, the wizard prison, believed to be one of Lord Voldemort’s old allies."
+    }
+}

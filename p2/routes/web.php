@@ -1,32 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MineralController;
+use Illuminate\Support\Facades\Log;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MineralController::class, 'welcome']);
 
 
-Route::get('/minerals', function () {
-    return "All dem bookies";
-});
+Route::get('/search', [MineralController::class, 'search']);
+
+Route::get('/minerals', [MineralController::class, 'index']);
+Route::get('/minerals/{slug}', [MineralController::class, 'show']);
+
+Route::get('/help', [MineralController::class, 'help']);
 
 
-Route::get('/minerals/{title}', function ($title) {
-    return $title;
-});
 
-Route::get('/search/{category}/{subcategory}', function ($category, $subcategory) {
-    return $category . ' and '. $subcategory;
+
+//Route::get('/books/{title}', ['App\Http\Controllers\BookController', 'show']);
+//Route::get('/search/{category}/{subcategory}', [BookController::class, 'search']);
+
+Route::get('/help', function () {
+    return view('help');
 });

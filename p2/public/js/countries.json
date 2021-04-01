@@ -1,0 +1,500 @@
+countries = '[
+  {
+    "Country": "Afghanistan"
+  },
+  {
+    "Country": "Algeria"
+  },
+  {
+    "Country": "Antarctica"
+  },
+  {
+    "Country": "Argentina"
+  },
+  {
+    "Country": "Arkansas"
+  },
+  {
+    "Country": "Armenia / Kazakhstan"
+  },
+  {
+    "Country": "Atlantic Ocean"
+  },
+  {
+    "Country": "Australia"
+  },
+  {
+    "Country": "Austria"
+  },
+  {
+    "Country": "Austria / Poland"
+  },
+  {
+    "Country": "Austria / Romania"
+  },
+  {
+    "Country": "Azerbaijan"
+  },
+  {
+    "Country": "Belgium"
+  },
+  {
+    "Country": "Bering Sea"
+  },
+  {
+    "Country": "Bolivia"
+  },
+  {
+    "Country": "Borneo"
+  },
+  {
+    "Country": "Bosnia and Herzegovina"
+  },
+  {
+    "Country": "Botswana"
+  },
+  {
+    "Country": "Brasil"
+  },
+  {
+    "Country": "Brazil"
+  },
+  {
+    "Country": "Bulgaria"
+  },
+  {
+    "Country": "Burma (Myanmar)"
+  },
+  {
+    "Country": "Cameroon"
+  },
+  {
+    "Country": "Cameroun"
+  },
+  {
+    "Country": "Canada"
+  },
+  {
+    "Country": "Canada / Namibia"
+  },
+  {
+    "Country": "Canada / Russia"
+  },
+  {
+    "Country": "Caribbean Sea"
+  },
+  {
+    "Country": "Chad"
+  },
+  {
+    "Country": "Chile"
+  },
+  {
+    "Country": "China"
+  },
+  {
+    "Country": "Colombia"
+  },
+  {
+    "Country": "Colombia (Andes Mts.)"
+  },
+  {
+    "Country": "Colorado"
+  },
+  {
+    "Country": "Cuba"
+  },
+  {
+    "Country": "Czech Republic"
+  },
+  {
+    "Country": "Czech Republic / Slovakia"
+  },
+  {
+    "Country": "Czech Republic / USA"
+  },
+  {
+    "Country": "Czechoslovakia"
+  },
+  {
+    "Country": "Democratic Republic of Congo"
+  },
+  {
+    "Country": "Democratic Republic of Congo (Democratic Republic of the Congo)"
+  },
+  {
+    "Country": "Democratic Republic of the Congo"
+  },
+  {
+    "Country": "Denmark"
+  },
+  {
+    "Country": "Dominican Republic"
+  },
+  {
+    "Country": "Egypt"
+  },
+  {
+    "Country": "El Salvador"
+  },
+  {
+    "Country": "England"
+  },
+  {
+    "Country": "Ethiopia"
+  },
+  {
+    "Country": "Faroe Islands"
+  },
+  {
+    "Country": "Fiji"
+  },
+  {
+    "Country": "Finland"
+  },
+  {
+    "Country": "France"
+  },
+  {
+    "Country": "France (New Caledonia)"
+  },
+  {
+    "Country": "Gabon"
+  },
+  {
+    "Country": "Georgia"
+  },
+  {
+    "Country": "Germany"
+  },
+  {
+    "Country": "Germany / Italy"
+  },
+  {
+    "Country": "Germany / Russia"
+  },
+  {
+    "Country": "Ghana"
+  },
+  {
+    "Country": "Greece"
+  },
+  {
+    "Country": "Greenland"
+  },
+  {
+    "Country": "Greenland / Russia"
+  },
+  {
+    "Country": "Guam"
+  },
+  {
+    "Country": "Guinea"
+  },
+  {
+    "Country": "Guyana"
+  },
+  {
+    "Country": "Honduras"
+  },
+  {
+    "Country": "Hungary"
+  },
+  {
+    "Country": "Iceland"
+  },
+  {
+    "Country": "Iceland / Germany / France / Norway"
+  },
+  {
+    "Country": "IDP (interplanetary dust particle) over USA"
+  },
+  {
+    "Country": "India"
+  },
+  {
+    "Country": "Indonesia"
+  },
+  {
+    "Country": "Iran"
+  },
+  {
+    "Country": "Iraq"
+  },
+  {
+    "Country": "Ireland"
+  },
+  {
+    "Country": "Israel"
+  },
+  {
+    "Country": "Italy"
+  },
+  {
+    "Country": "Italy / India / Poland / USA"
+  },
+  {
+    "Country": "Italy / USA"
+  },
+  {
+    "Country": "Japan"
+  },
+  {
+    "Country": "Jerslev and Youndegin meteorites"
+  },
+  {
+    "Country": "Jordan"
+  },
+  {
+    "Country": "Jordan (EC)"
+  },
+  {
+    "Country": "Kazakhstan"
+  },
+  {
+    "Country": "Kazakhstan / Kyrgyzstan"
+  },
+  {
+    "Country": "Kenya"
+  },
+  {
+    "Country": "Kirghizia"
+  },
+  {
+    "Country": "Korea"
+  },
+  {
+    "Country": "Kyrgystan"
+  },
+  {
+    "Country": "Kyrgyzstan"
+  },
+  {
+    "Country": "Kyrgzstan"
+  },
+  {
+    "Country": "Lesotho"
+  },
+  {
+    "Country": "Libya"
+  },
+  {
+    "Country": "Macedonia"
+  },
+  {
+    "Country": "Madagascar"
+  },
+  {
+    "Country": "Malaysia"
+  },
+  {
+    "Country": "Mexico"
+  },
+  {
+    "Country": "Mongolia"
+  },
+  {
+    "Country": "Montenegro"
+  },
+  {
+    "Country": "Moon"
+  },
+  {
+    "Country": "Morocco"
+  },
+  {
+    "Country": "Mozambique"
+  },
+  {
+    "Country": "Myanmar"
+  },
+  {
+    "Country": "Myanmar (Burma)"
+  },
+  {
+    "Country": "Namibia"
+  },
+  {
+    "Country": "Nevada"
+  },
+  {
+    "Country": "New Caledonia"
+  },
+  {
+    "Country": "New Zealand"
+  },
+  {
+    "Country": "Nigeria"
+  },
+  {
+    "Country": "North Korea"
+  },
+  {
+    "Country": "Northern Ireland"
+  },
+  {
+    "Country": "Norway"
+  },
+  {
+    "Country": "Oman"
+  },
+  {
+    "Country": "Pacific Ocean"
+  },
+  {
+    "Country": "Pakistan"
+  },
+  {
+    "Country": "Palestine"
+  },
+  {
+    "Country": "Papua New Guinea"
+  },
+  {
+    "Country": "Paraguay"
+  },
+  {
+    "Country": "Peru"
+  },
+  {
+    "Country": "Philippines"
+  },
+  {
+    "Country": "Poland"
+  },
+  {
+    "Country": "Portugal"
+  },
+  {
+    "Country": "Red Sea"
+  },
+  {
+    "Country": "Republic of Macedonia"
+  },
+  {
+    "Country": "Romania"
+  },
+  {
+    "Country": "Russia"
+  },
+  {
+    "Country": "Russia / Italy"
+  },
+  {
+    "Country": "Rwanda"
+  },
+  {
+    "Country": "Saudi Arabia"
+  },
+  {
+    "Country": "Scotland"
+  },
+  {
+    "Country": "Senegal"
+  },
+  {
+    "Country": "Serbia"
+  },
+  {
+    "Country": "Slovakia"
+  },
+  {
+    "Country": "South Africa"
+  },
+  {
+    "Country": "Spain"
+  },
+  {
+    "Country": "Sri Lanka"
+  },
+  {
+    "Country": "Surinam"
+  },
+  {
+    "Country": "Sweden"
+  },
+  {
+    "Country": "Switzerland"
+  },
+  {
+    "Country": "Switzerland / Australia"
+  },
+  {
+    "Country": "Taiwan"
+  },
+  {
+    "Country": "Tajikistan"
+  },
+  {
+    "Country": "Tanzania"
+  },
+  {
+    "Country": "Tibet"
+  },
+  {
+    "Country": "Tunisia"
+  },
+  {
+    "Country": "Turkey"
+  },
+  {
+    "Country": "Uganda"
+  },
+  {
+    "Country": "UK"
+  },
+  {
+    "Country": "Ukraine"
+  },
+  {
+    "Country": "United Kingdom"
+  },
+  {
+    "Country": "United Kingdom / Italy"
+  },
+  {
+    "Country": "unknown"
+  },
+  {
+    "Country": "USA"
+  },
+  {
+    "Country": "USA / Barbados"
+  },
+  {
+    "Country": "USA / Italy"
+  },
+  {
+    "Country": "USA."
+  },
+  {
+    "Country": "Utah"
+  },
+  {
+    "Country": "Uzbekistan"
+  },
+  {
+    "Country": "Venezuela"
+  },
+  {
+    "Country": "Wales"
+  },
+  {
+    "Country": "West Indies"
+  },
+  {
+    "Country": "Yemen"
+  },
+  {
+    "Country": "Yugoslavia"
+  },
+  {
+    "Country": "Zambia"
+  },
+  {
+    "Country": "Zimbabwe"
+  },
+  {
+    "Country": "Zimbawe"
+  }
+]';
