@@ -37,7 +37,7 @@ class MineralController extends Controller
 
         
         $request->validate([
-        'element' => 'max:2 ',
+        'element' => 'max:2 | alpha',
         'searchType' => 'alpha'
 
         ]);
