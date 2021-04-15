@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use App\Models\Book;
 
 class BookController extends Controller
 {
@@ -61,9 +62,36 @@ class BookController extends Controller
     */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:255',
+            'author'=> 'required|max:255',
+            'published_year'=> 'required|digits:4',
+            'slug'=> 'required|unique:books, slug',
+            'cover_url' => 'required|url',
+            'info_url' => 'required|url',
+            'purchase_url' => 'required|url',
+             'description'=> 'required|max:255',
+
+        ]);
+
+        $book = new Book();
+        $book->title = $request->title;
+        $book->author = $request->author;
+        $book->slug = $request->slug;
+
+        $book->published_year = $request->published_year;
+        $book->cover_url = $request->cover_url;
+        $book->info_url = $request->info_url;
+        $book->purchase_url = $request->purchase_url;
+
+        $book->description = $request->description;
+        $book->save();
+
+
         # Code will eventually go here to add the book to the database,
         # but for now we'll just dump the form data to the page for proof of concept
-        dump($request->all());
+        #dump($book);
+        return redirect('/books/create');
     }
 
 
@@ -74,27 +102,13 @@ class BookController extends Controller
 
     public function index()
     {
-        // Hard-coded books for practice:
-        // $books = [
-        //     ['title' => 'War and Peace', 'author' => 'Leo Tolstoy'],
-        //     ['title' => 'The Great Gatsby', 'author' => 'F. Scott Fitzgerald'],
-        //     ['title' => 'I Know Why the Caged Bird Sings', 'author' => 'Maya Angelou'],
-        // ];
-
-        # Load our book data using PHP's file_get_contents
-        # We specify our books.json file path using Laravel's database_path helper
-        $bookData = file_get_contents(database_path('books.json'));
-    
-        # Convert the string of JSON text we loaded from books.json into an
-        # array using PHP's built-in json_decode function
-        $books = json_decode($bookData, true);
-
-        # Alphabetize the books
-        $books = Arr::sort($books, function ($value) {
-            return $value['title'];
-        });
-
-        return view('books/index', ['books' => $books]);
+        $books = Book::orderBy('title', 'ASC')->get();
+        $newBooks = $books-> sortByDesc('id')->take(3);
+       
+       
+        //$newBooks = Book::orderBy('id', 'DESC')->limit(3)->get();
+        //dd($books->count());
+        return view('books/index', ['books' => $books, 'newBooks'=>$newBooks]);
     }
 
     /**
@@ -103,6 +117,9 @@ class BookController extends Controller
      */
     public function show($slug)
     {
+        # $book = Book::where('slug', '=', $slug)->first();
+
+
         # Load our book data
         # TODO: This code is redundant with loading the books in the index method
         $bookData = file_get_contents(database_path('books.json'));

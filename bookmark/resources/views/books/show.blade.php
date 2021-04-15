@@ -13,6 +13,8 @@
 @if(!$book)
 Book not found. <a href='/books'>Check out the other books in our library...</a>
 @else
+
+hello
 <img class='cover' src='{{ $book['cover_url'] }}' alt='Cover photo for {{ $book['title'] }}'>
 
 <h1>{{ $book['title'] }}</h1>

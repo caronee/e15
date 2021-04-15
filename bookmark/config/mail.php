@@ -2,6 +2,8 @@
 
 return [
 
+    'supportEmail' => 'help@bookmark.com',
+
     /*
     |--------------------------------------------------------------------------
     | Default Mailer

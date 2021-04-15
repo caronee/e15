@@ -16,8 +16,14 @@ All books
 No books have been added yet...
 @else
 <div id='books'>
-    @foreach($books as $slug => $book)
-    <a class='book' href='/books/{{ $slug }}'>
+    @foreach($newBooks as $book)
+    <li>{{$book->title}}</li>
+    <p></p>
+
+    @endforeach
+
+    @foreach($books as $book)
+    <a class='book' href='/books/{{ $book }}'>
         <h3>{{ $book['title'] }}</h3>
         <img class='cover' src='{{ $book['cover_url'] }}'>
     </a>

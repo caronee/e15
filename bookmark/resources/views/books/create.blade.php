@@ -17,6 +17,11 @@ Add a book
     <label for='title'>* Title</label>
     <input type='text' name='title' id='title'>
 
+    <label for='title'>* short URL</label>
+    <input type='text' name='slug' id='slug'>
+
+
+
     <label for='author'>* Author</label>
     <input type='text' name='author' id='author'>
 
@@ -36,5 +41,14 @@ Add a book
     <textarea name='description'></textarea>
 
     <button type='submit'>Add Book</button>
+
+    @if(count($errors) > 0)
+    <ul class='alert alert-danger'>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    @endif
+
 </form>
 @endsection
