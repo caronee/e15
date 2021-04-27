@@ -19,7 +19,9 @@
                 <li><a href='/'>Home</a></li>
                 <li><a href='/books'>All Books</a></li>
                 <li><a href='/list'>Your List</a></li>
-                <li><a href='/support'>Support</a></li>
+                <li><a href='/supportasfd'>Support asdfklsaldfk</a></li>
+
+
             </ul>
         </nav>
 

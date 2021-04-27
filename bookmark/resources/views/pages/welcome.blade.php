@@ -1,6 +1,21 @@
 @extends('layouts/main')
 
 @section('content')
+
+@if(Auth::user())
+<h2>
+    Hello {{ Auth::user()->name }}!
+</h2>
+
+@else
+<a href='/register'>Login</a>
+
+
+@endif
+
+
+
+
 <p>
     Welcome to Bookmark&mdash; an online book journal that lets you track and share a history of books you’ve read.
 </p>

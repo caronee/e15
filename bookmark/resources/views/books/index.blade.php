@@ -23,7 +23,7 @@ No books have been added yet...
     @endforeach
 
     @foreach($books as $book)
-    <a class='book' href='/books/{{ $book }}'>
+    <a class='book' href='/books/{{ $book['slug'] }}'>
         <h3>{{ $book['title'] }}</h3>
         <img class='cover' src='{{ $book['cover_url'] }}'>
     </a>

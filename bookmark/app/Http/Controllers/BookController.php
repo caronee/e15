@@ -55,7 +55,57 @@ class BookController extends Controller
         return view('books/create');
     }
 
+    /**
+* GET /books/{slug}/edit
+*/
+    public function edit(Request $request, $slug)
+    {
+        $book = Book::where('slug', '=', $slug)->first();
 
+        if (!$book) {
+            return redirect('/books')->with(['flash-alert' => 'Book not found.']);
+        }
+        dump($book->description);
+        return view('books/edit', ['book' => $book]);
+    }
+
+    /**
+        * PUT /books
+        */
+    public function update(Request $request, $slug)
+    {
+        $book = Book::where('slug', '=', $slug)->first();
+
+        $request->validate([
+        'title' => 'required',
+        'slug' => 'required|unique:books,slug,'.$book->id.'|alpha_dash',
+        'author' => 'required',
+        'published_year' => 'required|digits:4',
+        'cover_url' => 'url',
+        'info_url' => 'url',
+        'purchase_url' => 'required|url',
+        'description' => 'min:2'
+    ]);
+
+        // dump($book->description);
+        $book->title = $request->title;
+        $book->slug = $request->slug;
+        $book->author = $request->author;
+        $book->published_year = $request->published_year;
+        $book->cover_url = $request->cover_url;
+        $book->info_url = $request->info_url;
+        $book->purchase_url = $request->purchase_url;
+        $book->description = $request->description;
+        $book->save();
+
+        return redirect('/books/'.$slug.'/edit')->with(['flash-alert' => 'Your changes were saved.']);
+    }
+
+
+
+
+
+    
     /**
     * POST /books
     * Process the form for adding a new book
@@ -66,7 +116,7 @@ class BookController extends Controller
             'title' => 'required|max:255',
             'author'=> 'required|max:255',
             'published_year'=> 'required|digits:4',
-            'slug'=> 'required|unique:books, slug',
+            'slug'=> 'required|unique:books,slug',
             'cover_url' => 'required|url',
             'info_url' => 'required|url',
             'purchase_url' => 'required|url',
@@ -91,7 +141,7 @@ class BookController extends Controller
         # Code will eventually go here to add the book to the database,
         # but for now we'll just dump the form data to the page for proof of concept
         #dump($book);
-        return redirect('/books/create');
+        return redirect('/books/create')->with(['flas-alert' => 'Your book was added.']);
     }
 
 
@@ -117,19 +167,19 @@ class BookController extends Controller
      */
     public function show($slug)
     {
-        # $book = Book::where('slug', '=', $slug)->first();
+        $book = Book::where('slug', '=', $slug)->first();
 
 
         # Load our book data
         # TODO: This code is redundant with loading the books in the index method
-        $bookData = file_get_contents(database_path('books.json'));
-        $books = json_decode($bookData, true);
+        /*   $bookData = file_get_contents(database_path('books.json'));
+          $books = json_decode($bookData, true);
 
-        # Narrow down our array of books
-        $book = Arr::first($books, function ($value, $key) use ($slug) {
-            return $key == $slug;
-        });
-        
+          # Narrow down our array of books
+          $book = Arr::first($books, function ($value, $key) use ($slug) {
+              return $key == $slug;
+          });
+           */
         return view('books/show', [
             'book' => $book,
         ]);

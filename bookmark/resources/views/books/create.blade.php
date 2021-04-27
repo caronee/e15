@@ -6,7 +6,12 @@ Add a book
 @endsection
 
 @section('content')
-<h1>Add a book</h1>
+
+@if(session('flash-alert'))
+{{session('flash-alert')}}
+@endif
+
+<h1>Add a book!</h1>
 
 <p>Want to add a book to your list that isn’t in our library? Not a problem- you can add it here!</p>
 

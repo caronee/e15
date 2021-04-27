@@ -11,7 +11,7 @@
 @section('content')
 
 @if(!$book)
-Book not found. <a href='/books'>Check out the other books in our library...</a>
+Book not found. <a href='/books'>Check out the other books in our library.</a>
 @else
 
 hello
@@ -27,6 +27,9 @@ hello
     {{ $book['description'] }}
     <a href='{{ $book['info_url'] }}'>Learn more...</a>
 </p>
+
+<a href='{{ $book['slug'] }}/edit'>Edit</a>
+
 
 @endif
 

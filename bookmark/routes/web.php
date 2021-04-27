@@ -36,6 +36,17 @@ Route::get('/debug', function () {
 
 
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/books/create', [BookController::class, 'create']);
+    Route::post('/books', [BookController::class, 'store']);
+    Route::get('/books', [BookController::class, 'index']);
+    Route::get('/search', [BookController::class, 'search']);
+    Route::get('/books/{slug}', [BookController::class, 'show']);
+    Route::get('/books/{slug}/edit', [BookController::class, 'edit']);
+    Route::put('/books/{slug}', [BookController::class, 'update']);
+    Route::get('/books/{slug}/delete', [BookController::class, 'delete']);
+    Route::delete('/books/{slug}', [BookController::class, 'destroy']);
+});
 
 
 
@@ -54,6 +65,16 @@ Route::post('/books', [BookController::class, 'store']);
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/search', [BookController::class, 'search']);
 Route::get('/books/{slug}', [BookController::class, 'show']);
+
+
+# Show the form to edit a specific book
+Route::get('/books/{slug}/edit', [BookController::class, 'edit']);
+
+# Process the form to edit a specific book
+Route::put('/books/{slug}', [BookController::class, 'update']);
+
+
+
 //Route::get('/books/{title}', ['App\Http\Controllers\BookController', 'show']);
 //Route::get('/search/{category}/{subcategory}', [BookController::class, 'search']);
 
