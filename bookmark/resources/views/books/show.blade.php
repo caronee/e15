@@ -27,8 +27,10 @@ hello
     {{ $book['description'] }}
     <a href='{{ $book['info_url'] }}'>Learn more...</a>
 </p>
+<a href='/list/{{ $book['slug'] }}/add'>Add book to List</a>
 
 <a href='{{ $book['slug'] }}/edit'>Edit</a>
+<a href='{{ $book['slug'] }}/delete'>Delete</a>
 
 
 @endif

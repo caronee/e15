@@ -10,6 +10,12 @@
     @yield('head')
 </head>
 <body>
+    @if(session('flash-alert'))
+    <div class='flash-alert'>
+        {{ session('flash-alert')}}
+    </div>
+    @endif
+
 
     <header>
         <a href='/'><img src='/images/bookmark-logo@2x.png' id='logo' alt='bookmark Logo'></a>

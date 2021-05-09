@@ -4,134 +4,96 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class MineralController extends Controller
 {
-
-    /**get method / search
-     * search minerals
+    /**
+     * GET /
      */
-
     public function welcome()
     {
-        $countryData = file_get_contents(database_path('countries.json'));
-        $countries = json_decode($countryData, true);
+        # Load countries for dropdown list
+        $countries = json_decode(file_get_contents(database_path('countries.json')), true);
 
         # If we land on this page after doing a search, we'll have the following data available
         $searchResults = session('searchResults', null);
       
-
-
-
         return view('minerals/welcome', [
             'searchResults' => $searchResults,
-                  'countries' => $countries,
-             
+            'countries' => $countries,
         ]);
     }
 
+    /**
+     * GET /search
+     */
     public function search(Request $request)
     {
-        $countryData = file_get_contents(database_path('countries.json'));
-        $countries = json_decode($countryData, true);
-
-        
+        # Validate
         $request->validate([
-        'element' => 'max:2 | alpha',
-        'searchType' => 'alpha'
-
+            'element' => 'exclude_if:element,null|max:2|alpha',
+            'searchTerms' => 'exclude_if:searchTerms,null|alpha'
         ]);
-        #if validation fails, it will redirect
-        $bookData = file_get_contents(database_path('minlist.json'));
-        $minerals = json_decode($bookData, true);
 
-
-        $searchType = $request->input('searchType', 'Species');
-        $searchPlace = $request->input('Locality', 'Country');
-        $searchElement = $request->input('element1', 'Formula');
-
-
-        $rmType = $request->input('rmType', 'Valid');
-        $searchTerms = $request->input('searchTerms', '');
+        # Load data
+        $minerals = json_decode(file_get_contents(database_path('minlist.json')), true);
         
-        $Locality = $request->input('Locality1', '');
-        $minRock = $request->input('minRock', '');
-        $element = $request->input('element', '');
+        # Get values from form request
+        $searchTerms = $request->input('searchTerms', null);
+        $minRock = $request->input('minRock', null);
+        $element = $request->input('element', null);
+        $locality = $request->input('locality', null);
 
-
-
-
+        # Array to collect results
         $searchResults = [];
 
-  
+        # Loop through each mineral checking if it meets our search criteria
+        foreach ($minerals as $id => $mineral) {
 
-
-        foreach ($minerals as $slug => $mineral) {
+            # $include is a flag we'll use to track whether a given mineral should be included in our search result
+            # We’ll initialize it as `true` and run each of our criteria below.
+            # If a criteria fails, $include gets toggled to false.
+            # The next criteria will only evaluate if $include is still true (i.e. the previous criteria passed)
+            # If at the end, $include is true, we know all the necessary criterias passed and that
+            # mineral should be included in the search results
+            $include = true;
             
-            //element
-            if (!empty($element)) {
-                if (strpos($mineral[$searchElement], strval($element)) !== false) {
-                    if (!empty($searchTerms)) {
-                        if ($mineral[$rmType] == $minRock&& $mineral[$searchType]==$searchTerms) {
-                            if (!empty($Locality)) {
-                                if ($mineral[$searchPlace] == $Locality) {
-                                    $searchResults[$slug] = $mineral;
-                                }
-                            } else {
-                                $searchResults[$slug] = $mineral;
-                            }
-                        }
-                    } else {
-                        if ($mineral[$rmType] == $minRock) {
-                            if (!empty($Locality)) {
-                                if ($mineral[$searchPlace] == $Locality) {
-                                    $searchResults[$slug] = $mineral;
-                                }
-                            } else {
-                                $searchResults[$slug] = $mineral;
-                            }
-                        }
-                    }
-                }
-                //dump($mineral[$searchElement].$element. $mineral[$rmType].$minRock . $searchTerms . $Locality);
-
-                // dump($request->all());
+            # Criteria 1: If they entered a search term, it must be included in the Species (name)
+            if (!is_null($searchTerms) && !Str::contains($mineral['Species'], $searchTerms)) {
+                $include = false;
             }
-            //if search term matches specific mineral
-            if (empty($element)) {
-                if (!empty($searchTerms)) {
-                    if ($mineral[$rmType] == $minRock&& $mineral[$searchType]==$searchTerms) {
-                        if (!empty($Locality)) {
-                            if ($mineral[$searchPlace] == $Locality) {
-                                $searchResults[$slug] = $mineral;
-                            }
-                        } else {
-                            $searchResults[$slug] = $mineral;
-                        }
-                    }
-                } else {
-                    if ($mineral[$rmType] == $minRock) {
-                        if (!empty($Locality)) {
-                            if ($mineral[$searchPlace] == $Locality) {
-                                $searchResults[$slug] = $mineral;
-                            }
-                        } else {
-                            $searchResults[$slug] = $mineral;
-                        }
-                    }
-                }
-                //dump($minRock . $searchTerms . $Locality);
-                //dump($request->all());
+
+            # Criteria 2: If looking for a mineral, only include results that are minerals (Valid == true)
+            if ($include && $minRock == 'mineral' && $mineral['Valid'] != true) {
+                $include = false;
+            }
+
+            # Criteria 3: If they're looking for a rock, only include results that are rocks (Valid == false)
+            if ($include && $minRock == 'rock' && $mineral['Valid'] != false) {
+                $include = false;
+            }
+
+            # Criteria 4: If they're looking for a mineral with a specific element, search the Formula
+            if ($include && !is_null($element) && !Str::contains($mineral['Formula'], $element)) {
+                $include = false;
+            }
+            
+            # Criteria 5: If they’re looking for a mineral from a specific country, search the TypeLocality
+            if ($include && !is_null($locality) && !Str::contains($mineral['TypeLocality'], $locality)) {
+                $include = false;
+            }
+
+            # If it passed all above the above criteria, include it in our search results
+            if ($include) {
+                $searchResults[$id] = $mineral;
             }
         }
-        //dd($element);
 
-
-        return redirect('/')->with([
-            'searchResults' =>$searchResults,
-
-            ])->withInput();
+        return redirect('/')->with(['searchResults' => $searchResults])->withInput();
     }
+}
+
 
     
     public function index()

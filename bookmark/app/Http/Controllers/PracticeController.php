@@ -6,9 +6,55 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Author;
+use App\Models\User;
 
 class PracticeController extends Controller
 {
+    public function practice16()
+    {
+        $user = User::where('email', '=', 'jamal@harvard.edu')->first();
+
+        $book = Book::where('title', '=', 'The Great Gatsby')->first();
+
+
+        $user->books()->save($book, ['notes' => 'I liked this book a lot.']);
+    }
+
+
+
+    public function practice15()
+    {
+        $books = Book::with('users')->get();
+
+        foreach ($books as $book) {
+            dump($book->title);
+            foreach ($book->users as $user) {
+                dump($user->toArray());
+            }
+        }
+    }
+
+    public function practice14()
+    {
+        $book = Book::where('title', '=', 'The Great Gatsby')->first();
+        dump($book->users->toArray());
+    }
+
+    public function practice13()
+    {
+        $user = User::where('email', '=', 'jill@harvard.edu')->first();
+
+    
+
+        dump($user->name.' has the following books on their list: ');
+
+        # Note how we can treate the `books` relationship as a dynamic propert ($user->books)
+        foreach ($user->books as $book) {
+            dump($book->title);
+        }
+    }
+
+
     /**
      * First practice example
      * GET /practice/1
@@ -175,13 +221,26 @@ class PracticeController extends Controller
         dump('Book deleted.');
     }
 
-    public function practice9()
+    public function practice9(Request $request)
     {
+        $user = Auth::user();
+
+
         $book = Book::get();
        
-        dump($book);
+        if (Auth::check()) {
+            dump(Auth::user());
+            dump($request->user()->id);
+            dump(Auth::user()->id);
+        }
     }
 
+    public function practice9a(Request $request)
+    {
+        $user =$request->user();
+
+        dump($user->toArray());
+    }
 
     /**
      * ANY (GET/POST/PUT/DELETE)
@@ -193,7 +252,7 @@ class PracticeController extends Controller
      * http://e15bookmark.loc/practice/5 => Invokes practice5
      * http://e15bookmark.loc/practice/999 => 404 not found
      */
-    public function index($n = null)
+    public function index(Request $request, $n = null)
     {
         $methods = [];
 
@@ -202,7 +261,7 @@ class PracticeController extends Controller
             $method = 'practice' . $n; # practice1
 
             # Invoke the requested method if it exists; if not, throw a 404 error
-            return (method_exists($this, $method)) ? $this->$method() : abort(404);
+            return (method_exists($this, $method)) ? $this->$method($request) : abort(404);
         } # If no `n` is specified, show index of all available methods
         else {
             # Build an array of all methods in this class that start with `practice`

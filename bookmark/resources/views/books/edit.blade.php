@@ -18,21 +18,27 @@ Add a book
 <form method='POST' action='/books/{{$book->slug}}'>
     <div class=' details'>* Required fields</div>
     {{ csrf_field() }}
-
     {{ method_field('put') }}
+
+    @include('includes/error-field', ['fieldName' => 'slug'])
 
 
     <label for='title'>* Title</label>
     <input type='text' name='title' id='title' value='{{ old('slug', $book->title)}}'>
 
+    @include('includes/error-field', ['fieldName' => 'title'])
+
+
     <label for='title'>* short URL</label>
     <input type='text' name='slug' id='slug' value='{{ old('slug', $book->slug)}}'>
 
-
-
-
-    <label for='author'>* Author</label>
-    <input type='text' name='author' id='author' value='{{ old('slug', $book->author)}}'>
+    <label for='author_id'>* Author</label>
+    <select name='author_id' dusk='author-id-select' id='author_id'>
+        <option value=''>Choose one...</option>
+        @foreach($authors as $author)
+        <option value='{{ $author->id }}' {{ $author->id == $book->author->id ? 'selected' : '' }}>{{ $author->last_name }}, {{ $author->first_name }}</option>
+        @endforeach
+    </select>
 
 
     <label for='published_year'>* Published Year (YYYY)</label>

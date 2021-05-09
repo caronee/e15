@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Book;
+use App\Models\Author;
+use App\Actions\Book\StoreNewBook;
 
 class BookController extends Controller
 {
@@ -65,8 +67,9 @@ class BookController extends Controller
         if (!$book) {
             return redirect('/books')->with(['flash-alert' => 'Book not found.']);
         }
-        dump($book->description);
-        return view('books/edit', ['book' => $book]);
+        $authors = Author::orderBy('last_name')->select(['id', 'first_name', 'last_name'])->get();
+
+        return view('books/edit', ['book' => $book, 'authors'=> $authors]);
     }
 
     /**
@@ -101,7 +104,32 @@ class BookController extends Controller
         return redirect('/books/'.$slug.'/edit')->with(['flash-alert' => 'Your changes were saved.']);
     }
 
+    public function delete($slug)
+    {
+        $book = Book::findBySlug($slug);
 
+        if (!$book) {
+            return redirect('/books')->with([
+                'flash-alert' => 'Book not found'
+            ]);
+        }
+
+        return view('books/delete', ['book' => $book]);
+    }
+
+    /**
+    * Deletes the book
+    * DELETE /books/{slug}/delete
+    */
+    public function destroy($slug)
+    {
+        $book = Book::findBySlug($slug);
+        $book->delete();
+
+        return redirect('/books')->with([
+            'flash-alert' => '“' . $book->title . '” was removed.'
+        ]);
+    }
 
 
 
@@ -184,32 +212,4 @@ class BookController extends Controller
             'book' => $book,
         ]);
     }
-
-
-
-    /**
-     * GET /list
-     */
-    public function list()
-    {
-        # TODO
-        return view('books/list');
-    }
-
-
-    /**
-    public function show2($title)
-    {
-        $bookFound = true;
-        //return $view('books/show');
-        return view('books/show2', [
-            'title' => $title,
-            'bookFound' => $bookFound
-        ]);
-    }
-
-    public function search2($category, $subcategory)
-    {
-        return 'books' . $category . ' ' . $subcategory;
-    }*/
 }

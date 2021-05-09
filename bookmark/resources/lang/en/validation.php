@@ -147,6 +147,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'slug' => 'Short url'
+
+],
 
 ];

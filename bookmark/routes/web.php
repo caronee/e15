@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PageController;
-
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\ListController;
 
 Route::any('/practice/{n?}', [PracticeController::class, 'index']);
 
@@ -33,47 +33,53 @@ Route::get('/debug', function () {
 
     dump($debug);
 });
-
-
+    Route::get('/', [PageController::class, 'index']);
+    Route::get('/support', [PageController::class, 'support']);
+ 
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/books/create', [BookController::class, 'create']);
+
+    // Make sure the create route comes before `/books/{slug?}` so it takes precedence
+    Route::get('/books/create', [BookController::class, 'create']);#->middleware('auth');
+
+    // Note the use of the post method in this route
     Route::post('/books', [BookController::class, 'store']);
+
+
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/search', [BookController::class, 'search']);
     Route::get('/books/{slug}', [BookController::class, 'show']);
+
+    /**
+        * Book - Update
+        */
+
+    # Show the form to edit a specific book
     Route::get('/books/{slug}/edit', [BookController::class, 'edit']);
+
+    # Process the form to edit a specific book
     Route::put('/books/{slug}', [BookController::class, 'update']);
+
+
+    /**
+        * Book - DELETE
+        */
+    # Show the page to confirm deletion of a book
     Route::get('/books/{slug}/delete', [BookController::class, 'delete']);
+
+    # Process the deletion of a book
     Route::delete('/books/{slug}', [BookController::class, 'destroy']);
+
+
+
+    /**
+     * List
+     *
+     */
+    Route::get('/list', [ListController::class, 'show']);
+    Route::get('/list/{slug}/add', [ListController::class, 'add']);
+    Route::get('/list/{slug}/save', [ListController::class, 'save']);
 });
-
-
-
-
-Route::get('/', [PageController::class, 'index']);
-Route::get('/support', [PageController::class, 'support']);
-Route::get('/list', [BookController::class, 'list']);
-
-// Make sure the create route comes before `/books/{slug?}` so it takes precedence
-Route::get('/books/create', [BookController::class, 'create']);
-
-// Note the use of the post method in this route
-Route::post('/books', [BookController::class, 'store']);
-
-
-Route::get('/books', [BookController::class, 'index']);
-Route::get('/search', [BookController::class, 'search']);
-Route::get('/books/{slug}', [BookController::class, 'show']);
-
-
-# Show the form to edit a specific book
-Route::get('/books/{slug}/edit', [BookController::class, 'edit']);
-
-# Process the form to edit a specific book
-Route::put('/books/{slug}', [BookController::class, 'update']);
-
-
 
 //Route::get('/books/{title}', ['App\Http\Controllers\BookController', 'show']);
 //Route::get('/search/{category}/{subcategory}', [BookController::class, 'search']);
