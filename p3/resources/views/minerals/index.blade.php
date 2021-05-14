@@ -18,18 +18,68 @@ No minerals have been added yet...
 @else
 <div id='books'>
 
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Minerals</th>
+                <th scope="col">Formula</th>
+                <th scope="col">Type Locality</th>
+                <th scope="col">Country</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
 
 
-    @foreach($minerals as $slug => $mineral)
-    <a class='mineral' href='/minerals/{{ $mineral['Species'] }}'>
+            </tr>
+        </thead>
+        <tbody>
 
-        <h3>{{ $mineral['Species'] }}</h3>
 
-        {{ $mineral['Formula'] }}
 
-    </a>
+            @foreach($minerals as $slug => $mineral)
+            <tr>
+                <td>
+                    {{ $mineral->slug }}
+                </td>
+                <td> {{ $mineral['formula'] }}
+                </td>
+                <td>
+                    {{ $mineral->locality }}
+                </td>
+                <td>
+                    @foreach ($countries as $country)
+                    @if($country->id== $mineral->country_id )
 
-    @endforeach
+                    {{$country->country}}
+
+                    @endif
+                    @endforeach
+                </td>
+
+                <td>
+
+                    <a class='mineral' href='/minerals/{{ $mineral->slug }}/edit'>
+
+                        Edit
+
+                    </a>
+                </td>
+                <td>
+
+                    <a class='mineral' href='/minerals/{{ $mineral->slug }}/delete'>
+
+                        Delete
+
+                    </a>
+                </td>
+
+
+            </tr>
+
+            @endforeach
+
+        </tbody>
+    </table>
+
 </div>
 @endif
 

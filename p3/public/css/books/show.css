@@ -11,3 +11,35 @@ img.cover {
     height: 175px;
     margin-bottom: 25px;
 }
+
+.flash-alert {
+    background-color: rgb(255, 94, 0);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    
+     animation:flash-alert 0.5s 1;
+    -webkit-animation:flash-alert 0.5s 1;
+    animation-fill-mode: forwards;
+
+    animation-delay:2s;
+    -webkit-animation-delay:1s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+
+} 
+
+@keyframes flash-alert{
+    from {opacity :1;}
+    to {opacity :0;}
+}
+
+@-webkit-keyframes flash-alert{
+    from {opacity :1;}
+    to {opacity :0;}
+
+}
+

@@ -13,55 +13,61 @@ This is neither a mineral nor a rock! <a href='/minerals'>Check out the other mi
 @else
 
 
-<h1>{{ $mineral['Species'] }}</h1>
+<h1>{{ $mineral['slug'] }}</h1>
 <table class="table  table-bordered">
 
     <thead>
         <tr>
             <th scope="col">Species</th>
+            <th scope="col">IMA_reference</th>
+
             <th scope="col">Formula</th>
             <th scope="col">Type Locality</th>
-            <th scope="col">From meteorite?</th>
-            <th scope="col">Rock/ Mineral</th>
+            <th scope="col">Country</th>
+
+            <th scope="col">Publication</th>
+            <th scope="col">Publication Year</th>
 
         </tr>
     </thead>
     <tbody>
+        @foreach($mineral as $minerals)
+
+
         <tr>
-            <th scope="row">{{ $mineral['Species'] }}</th>
+            <th scope="row">{{ $mineral['slug'] }}</th>
+            <td>
+                <p class='description'>{{ $mineral['IMA_reference']}}</p>
+            </td>
 
             <td>
-
-                <p> {{ $mineral['Formula'] }}
-
+                <p> {{ $mineral['formula'] }}
                 </p>
             </td>
 
             <td>
-
-                <p class='description'>
-
-                    {{ $mineral['TypeLocality']}}</p>
-
+                <p class='description'>{{ $mineral['locality']}}</p>
             </td>
             <td>
+                <p class='description'>{{ $mineral['country']}}</p>
+            </td>
+
+
+            <td>
                 <p class='description'>
-                    {{ $mineral['Meteorite'] }}
+                    {{$mineral['publication'] }}
                 </p>
             </td>
             <td>
                 <p class='description'>
-                    @if( $mineral['Valid'] )
-                    Mineral
-                    @else Rock
-                    @endif
-
-
+                    {{ $mineral['published_year'] }}
                 </p>
             </td>
+            @endforeach
 
 
-    </tbody>
+</table>
+</tbody>
 
-    @endif
-    @endsection
+@endif
+@endsection

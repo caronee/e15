@@ -5,21 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use App\Models\Mineral;
+use App\Models\Repository;
+use App\Models\Country;
 
 class MineralController extends Controller
 {
+    public function welcome()
+    {
+        return view('pages/welcome', [
+ 
+        ]);
+    }
+
     /**
      * GET /
      */
-    public function welcome()
+    public function search()
     {
         # Load countries for dropdown list
-        $countries = json_decode(file_get_contents(database_path('countries.json')), true);
+        $countries = Country::orderBy('country')->select(['id','country'])->get();
 
         # If we land on this page after doing a search, we'll have the following data available
         $searchResults = session('searchResults', null);
       
-        return view('minerals/welcome', [
+        return view('pages/search', [
             'searchResults' => $searchResults,
             'countries' => $countries,
         ]);
@@ -28,11 +38,11 @@ class MineralController extends Controller
     /**
      * GET /search
      */
-    public function search(Request $request)
+    public function search1(Request $request)
     {
         # Validate
         $request->validate([
-            'element' => 'exclude_if:element,null|max:2|alpha',
+            'slug' => 'required|alpha',
             'searchTerms' => 'exclude_if:searchTerms,null|alpha'
         ]);
 
@@ -92,24 +102,121 @@ class MineralController extends Controller
 
         return redirect('/')->with(['searchResults' => $searchResults])->withInput();
     }
+    public function edit(Request $request, $slug)
+    {
+        $mineral = Mineral::where('slug', '=', $slug)->first();
+        $countries = Country::orderBy('country')->select(['id','country'])->get();
+
+        if (!$mineral) {
+            return redirect('/minerals')->with(['flash-alert' => 'Mineral not found.']);
+        }
+
+        return view('minerals/edit', ['mineral' => $mineral,
+         'countries'=>$countries]);
+    }
+    /**
+       * PUT /minerals
+       * Process the form for adding a new respository
+       */
+    public function update(Request $request, $slug)
+    {
+        $mineral = Mineral::where('slug', '=', $slug)->first();
+        
+
+
+        $request->validate([
+        'slug' => 'required',
+       // 'slug' => 'required',
+      //  'catalogue_entry'=> 'required',
+        'country_id' =>'required'
+       // 'type_status'=> 'required'
+
+
+        ]);
+     
+        $mineral-> slug= $request-> slug;
+        $mineral-> formula= $request-> formula;
+        $mineral-> country_id= $request-> country_id;
+        $mineral-> locality= $request-> locality;
+
+        $mineral-> comments= $request-> comments;
+
+
+        $mineral->save();
+
+
+        return redirect('/minerals/'.$slug.'/edit')->with([
+            'flash-alert' => 'Your mineral record was changed.']);
+    }
+
+    /**
+    * GET /specimens/create
+    * Display the form to add a new respository
+    */
+    public function create(Request $request)
+    {
+        $countries = Country::orderBy('country')->select(['id','country'])->get();
+        $repositories = Repository::orderBy('country_id')->select(['id','display_name'])->get();
+
+
+        return view('minerals/create', ['countries'=>$countries,
+        'repositories' => $repositories
+        
+        ]);
+    }
+
+    /**
+    * POST /specimens
+    * Process the form for adding a new respository
+    */
+    public function store(Request $request)
+    {
+        $request->validate([
+        'slug' => 'required',
+       // 'display_name' => 'required',
+      //  'catalogue_entry'=> 'required',
+        'country_id' =>'required'
+       // 'type_status'=> 'required'
+
+
+        ]);
+        $specimen = new Mineral();
+        $specimen-> slug= $request-> slug;
+        $specimen-> IMA_reference= $request-> IMA_reference;
+        $specimen-> author= $request-> author;
+        //$specimen-> country= $request-> country;
+        $specimen-> country_id= $request-> country_id;
+        
+        $specimen-> published_year= $request-> published_year;
+        $specimen-> publication= $request-> publication;
+        $specimen-> formula= $request-> formula;
+        $specimen-> locality= $request-> locality;
+        $specimen-> publication_url= $request-> publication_url;
+
+        $specimen-> comments= $request-> comments;
+
+
+
+
+        $specimen->save();
+
+
+        return redirect('/minerals/'.$request->slug.'/edit')->with([
+            'flash-alert' => 'Your specimen record was added.']);
+    }
 
 
     
     public function index()
     {
-        $bookData = file_get_contents(database_path('minlist.json'));
-        $minerals = json_decode($bookData, true);
+        $minerals = Mineral::orderBy('slug')->get();
+        // $countries = Country::orderBy('country')->select(['id','country'])->get();
 
-        $countryData = file_get_contents(database_path('countries.json'));
-        $countries = json_decode($countryData, true);
+        $countries = Country::orderBy('country')->select(['id','country'])->get();
 
+        // $countries = Country::orderBy('country')->get();
 
-        
-        $minerals = Arr::sort($minerals, function ($value) {
-            // dd($value['Species']);
-            return $value['Species'];
-        });
-
+        $minerals = Mineral::with('country')->get();
 
         return view('minerals/index', [
             'minerals' => $minerals,
@@ -120,23 +227,16 @@ class MineralController extends Controller
 
     public function show($slug)
     {
-        $bookData = file_get_contents(database_path('minlist.json'));
-        $minerals = json_decode($bookData, true);
-        //$minerals = Arr::sort($minerals, function ($value, $key) use ($slug) {
-        //   return $value['title'] = $slug;});
+        $mineral = Mineral::where('slug', '=', $slug)->get();
 
+            
+        $country = Country::orderBy('country')->get();
 
-        $mineral = Arr::first($minerals, function ($value, $key) use ($slug) {
-            return $value['Species']  == $slug;
-        });
-
-
-        
         return view(
             'minerals/show',
             [//'species' => $species,
             'mineral' =>$mineral,
-            
+            'country' => $country,
             ]
         );
     }
@@ -148,5 +248,49 @@ class MineralController extends Controller
 
 
         return view('minerals/help');
+    }
+
+    
+    /**
+     * GET /list
+     */
+    public function list()
+    {
+        # TODO
+        return view('specimens/list');
+    }
+
+    /**
+    * Asks user to confirm they want to delete the mineral
+    * GET /minerals/{slug}/delete
+    */
+    public function delete($slug)
+    {
+        $mineral = Mineral::findBySlug($slug);
+
+        if (!$mineral) {
+            return redirect('/minerals')->with([
+                'flash-alert' => 'mineral not found'
+            ]);
+        }
+
+        return view('minerals/delete', ['mineral' => $mineral]);
+    }
+
+    /**
+    * Deletes the mineral
+    * DELETE /minerals/{slug}/delete
+    */
+    public function destroy($slug)
+    {
+        $mineral = Mineral::findBySlug($slug);
+
+        //$mineral->users()->detach();
+
+        // $mineral->delete();
+
+        return redirect('/minerals')->with([
+            'flash-alert' => '“' . $mineral->slug . '” was removed.'
+        ]);
     }
 }
